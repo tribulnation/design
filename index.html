@@ -57,6 +57,7 @@
     --border: #262b32;
     --text: #eef1f4;
     --muted: #8a95a1;
+    --accent-text: var(--accent);
   }
   [data-mode="light"] {
     --bg: #f5f4f0;
@@ -65,6 +66,10 @@
     --border: #ddd8cd;
     --text: #14171c;
     --muted: #6b7280;
+    /* Both accents (lime, coral) are too light-toned to read as text on a
+       light ground — darken toward black for the text/border use case while
+       leaving --accent itself (used as a solid fill, e.g. buttons) intact. */
+    --accent-text: color-mix(in srgb, var(--accent) 55%, black 45%);
   }
 
   /* ---- Palette axis: accent ---- */
@@ -272,7 +277,7 @@
     font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent-text);
   }
   .hero h1 {
     font-family: var(--display-font);
@@ -401,7 +406,7 @@
   .mono-sample {
     font-family: var(--font-mono);
     font-size: 14px;
-    color: var(--accent);
+    color: var(--accent-text);
     background: var(--accent-soft);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-sm);
@@ -461,7 +466,7 @@
     border: 1px solid var(--border);
     color: var(--muted);
   }
-  .tag.on { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+  .tag.on { color: var(--accent-text); border-color: var(--accent); background: var(--accent-soft); }
 
   .card-demo {
     background: var(--surface-2);
