@@ -606,18 +606,8 @@
           </div>
         </div>
         <div class="switch-group">
-          <span class="switch-label">Share code</span>
-          <div style="display:flex; gap:6px; align-items:center;">
-            <input id="share-code" type="text" readonly style="font-family:var(--font-mono); font-size:12px; width:110px; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); padding:6px 8px;" />
-            <button class="btn btn-secondary" id="share-btn" onclick="copyShareCode()" style="padding: var(--space-2) var(--space-3); font-size: 13px;">Copy</button>
-          </div>
-        </div>
-        <div class="switch-group">
-          <span class="switch-label">Load code</span>
-          <div style="display:flex; gap:6px; align-items:center;">
-            <input id="load-code" type="text" placeholder="paste code" style="font-family:var(--font-mono); font-size:12px; width:110px; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); padding:6px 8px;" />
-            <button class="btn btn-secondary" id="load-btn" onclick="applyPastedCode()" style="padding: var(--space-2) var(--space-3); font-size: 13px;">Apply</button>
-          </div>
+          <span class="switch-label">&nbsp;</span>
+          <button class="btn btn-secondary" id="share-btn" onclick="copyShareLink()" style="padding: var(--space-2) var(--space-4); font-size: 13px;">Copy link</button>
         </div>
       </div>
     </div>
@@ -889,6 +879,23 @@
   const defaultState = { logo: 'geo', palette: 'lime', mode: 'dark', font: 'orbitron' };
   const state = { ...defaultState };
 
+  function readHash() {
+    const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    for (const axis of Object.keys(defaultState)) {
+      const val = params.get(axis);
+      state[axis] = (val && validValues[axis].includes(val)) ? val : defaultState[axis];
+    }
+  }
+
+  function writeHash() {
+    const params = new URLSearchParams();
+    for (const axis of Object.keys(defaultState)) params.set(axis, state[axis]);
+    const hash = '#' + params.toString();
+    if (window.location.hash !== hash) {
+      history.replaceState(null, '', hash);
+    }
+  }
+
   function syncUI() {
     const root = document.getElementById('root');
     for (const axis of Object.keys(defaultState)) {
@@ -935,58 +942,39 @@
     document.getElementById('color-note').textContent =
       `${paletteLabel[state.palette]} accent · ${modeLabel[state.mode].toLowerCase()} mode`;
     document.getElementById('type-note').textContent = font.note;
-    document.getElementById('share-code').value = stateCode();
     renderSwatches();
-  }
-
-  // Compact, order-fixed code — e.g. "brush.coral.dark.marker" — independent
-  // of the browser's address bar (which the embedded viewer doesn't expose).
-  function stateCode() {
-    return Object.keys(defaultState).map(axis => state[axis]).join('.');
-  }
-
-  function applyCode(code) {
-    const parts = code.trim().toLowerCase().split('.');
-    const axes = Object.keys(defaultState);
-    if (parts.length !== axes.length) return false;
-    for (let i = 0; i < axes.length; i++) {
-      if (!validValues[axes[i]].includes(parts[i])) return false;
-    }
-    axes.forEach((axis, i) => { state[axis] = parts[i]; });
-    syncUI();
-    render();
-    return true;
   }
 
   function setAxis(axis, value) {
     state[axis] = value;
     syncUI();
+    writeHash();
     render();
   }
 
-  async function copyShareCode() {
-    const code = stateCode();
+  async function copyShareLink() {
+    const link = window.location.href;
     const btn = document.getElementById('share-btn');
     try {
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(link);
       btn.textContent = 'Copied!';
     } catch (err) {
-      window.prompt('Copy this code:', code);
-      btn.textContent = 'Copy';
+      window.prompt('Copy this link:', link);
+      btn.textContent = 'Copy link';
       return;
     }
-    setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+    setTimeout(() => { btn.textContent = 'Copy link'; }, 1500);
   }
 
-  function applyPastedCode() {
-    const input = document.getElementById('load-code');
-    const btn = document.getElementById('load-btn');
-    const ok = applyCode(input.value);
-    btn.textContent = ok ? 'Applied!' : 'Invalid code';
-    setTimeout(() => { btn.textContent = 'Apply'; }, 1500);
-  }
+  window.addEventListener('hashchange', () => {
+    readHash();
+    syncUI();
+    render();
+  });
 
+  readHash();
   syncUI();
+  writeHash();
   render();
 </script>
 </body>
