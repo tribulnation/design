@@ -622,6 +622,10 @@
           <span class="switch-label">&nbsp;</span>
           <button class="btn btn-secondary" id="share-btn" onclick="copyShareLink()" style="padding: var(--space-2) var(--space-4); font-size: 13px;">Copy link</button>
         </div>
+        <div class="switch-group">
+          <span class="switch-label">&nbsp;</span>
+          <button class="btn btn-primary" id="open-landing-btn" onclick="openLanding()" style="padding: var(--space-2) var(--space-4); font-size: 13px;">Open landing ↗</button>
+        </div>
       </div>
     </div>
   </div>
@@ -977,6 +981,16 @@
       return;
     }
     setTimeout(() => { btn.textContent = 'Copy link'; }, 1500);
+  }
+
+  // The landing site's axis keys/values (#logo, #palette, #mode, #font)
+  // are identical to this page's, so the hash can be passed through as-is.
+  const LANDING_URL = 'https://tribulnation.github.io/landing/';
+
+  function openLanding() {
+    const params = new URLSearchParams();
+    for (const axis of Object.keys(defaultState)) params.set(axis, state[axis]);
+    window.open(LANDING_URL + '#' + params.toString(), '_blank', 'noopener');
   }
 
   window.addEventListener('hashchange', () => {
