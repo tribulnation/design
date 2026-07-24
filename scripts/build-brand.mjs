@@ -132,6 +132,32 @@ for (const variant of STANDARD_VARIANTS) {
   console.log('built icon')
 }
 
+// ---- social: fixed-size, fixed-color cover images (X/Twitter header,
+// LinkedIn company banner) — not currentColor variants like the rest of the
+// kit, since they're single-purpose compositions (mark + wordmark + tagline
+// + grid/glow backdrop) sized to each platform's exact upload dimensions.
+// Source SVGs already bake in their own colors and a self-contained
+// gradient/pattern backdrop, so this just copies them through and renders
+// a matching PNG at native resolution (no @512/@2048 variants — the SVG's
+// viewBox already matches the target upload size 1:1).
+{
+  const SOCIAL_VARIANTS = [
+    { slug: 'twitter-header', src: join(assetsDir, 'social', 'twitter-header.svg'), width: 1500 },
+    { slug: 'linkedin-banner', src: join(assetsDir, 'social', 'linkedin-banner.svg'), width: 1128 }
+  ]
+  const variantDir = join(outDir, 'social')
+  mkdirSync(variantDir, { recursive: true })
+
+  for (const variant of SOCIAL_VARIANTS) {
+    const svg = readFileSync(variant.src, 'utf8')
+    writeFileSync(join(variantDir, `${variant.slug}.svg`), svg)
+    const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: variant.width } })
+    writeFileSync(join(variantDir, `${variant.slug}.png`), resvg.render().asPng())
+  }
+
+  console.log('built social')
+}
+
 // Zip everything just generated. Build it in a scratch location first —
 // zipping outDir into a file that also lives inside outDir would have the
 // archiver read its own half-written output.
