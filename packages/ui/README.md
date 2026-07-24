@@ -83,16 +83,9 @@ Bump `version` in `packages/ui/package.json` and push to `main`.
 whenever that version isn't already on the registry — no tagging step
 needed.
 
-Publishing currently uses an `NPM_TOKEN` repo secret (an npm automation
-token with publish rights on the `@tribulnation` scope). This is a stepping
-stone: once the package has its first publish, we'll switch to npm's
-[Trusted Publishing](https://docs.npmjs.com/trusted-publishers) (OIDC) —
-tying publish rights to this exact repo + workflow file with no stored
-secret to rotate or leak. To make that switch later:
-1. On the [package's settings page](https://www.npmjs.com/package/@tribulnation/ui/access),
-   add a Trusted Publisher: GitHub Actions, repo `tribulnation/design`,
-   workflow `publish-ui.yml`, no environment.
-2. Swap the workflow's `NODE_AUTH_TOKEN` step for `permissions: id-token: write`
-   (no publish step changes needed beyond that — see git history for the
-   OIDC version of this workflow).
-3. Remove the `NPM_TOKEN` secret.
+Publishing uses npm's [Trusted Publishing](https://docs.npmjs.com/trusted-publishers)
+(OIDC): the workflow requests a short-lived identity token from GitHub
+(`id-token: write`), and npm verifies it against the Trusted Publisher
+configured on the package (GitHub Actions, repo `tribulnation/design`,
+workflow `publish-ui.yml`, no environment) — no `NPM_TOKEN` secret to store
+or rotate.
