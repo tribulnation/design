@@ -4,6 +4,9 @@
 <meta charset="utf-8" />
 <title>Tribunation Labs — Design System Proposals</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>
   @font-face {
     font-family: 'Orbitron';
@@ -104,6 +107,14 @@
      face reads fine at hero size but gets hard to read at smaller sizes
      or on longer strings (e.g. a real blog-post title) — so it never
      cascades past the one big headline it was chosen for. */
+  [data-font="inter"] .hero h1,
+  [data-font="inter"] .wordmark {
+    font-family: 'Inter', var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+
   [data-font="orbitron"] .hero h1,
   [data-font="orbitron"] .wordmark {
     font-family: 'Orbitron', var(--font-sans);
@@ -516,6 +527,21 @@
   }
   .bg-chip.on-trans .chip-cap { color: #24262b; font-weight: 700; }
   .bg-chip .mark-geo, .bg-chip .mark-brush, .bg-chip .mark-signal { width: 52px; height: 52px; }
+  /* Logo-outline axis — only affects the standalone mark preview
+     (#logo-section's first bg-grid), matching how it's meant to be used:
+     a container drawn around the bare mark, e.g. for a nav/app icon. */
+  [data-logo-outline="circle"] #logo-section > .bg-grid:first-of-type svg {
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+  [data-logo-outline="square"] #logo-section > .bg-grid:first-of-type svg {
+    border-radius: 16px;
+    border: 1.5px solid currentColor;
+    padding: 12px;
+    box-sizing: border-box;
+  }
   .bg-chip .lockup .mark-geo, .bg-chip .lockup .mark-brush, .bg-chip .lockup .mark-signal { width: 34px; height: 34px; }
   .bg-chip .wordmark { font-size: 16px; }
 
@@ -612,10 +638,19 @@
           <span class="switch-label">Font</span>
           <div class="tabs" role="tablist" aria-label="Font">
             <button class="tab" role="tab" id="tab-font-system" aria-pressed="false" onclick="setAxis('font','system')">System</button>
+            <button class="tab" role="tab" id="tab-font-inter" aria-pressed="false" onclick="setAxis('font','inter')">Inter</button>
             <button class="tab" role="tab" id="tab-font-orbitron" aria-pressed="true" onclick="setAxis('font','orbitron')">Orbitron</button>
             <button class="tab" role="tab" id="tab-font-audiowide" aria-pressed="false" onclick="setAxis('font','audiowide')">Audiowide</button>
             <button class="tab" role="tab" id="tab-font-marker" aria-pressed="false" onclick="setAxis('font','marker')">Marker</button>
             <button class="tab" role="tab" id="tab-font-sriracha" aria-pressed="false" onclick="setAxis('font','sriracha')">Sriracha</button>
+          </div>
+        </div>
+        <div class="switch-group">
+          <span class="switch-label">Logo outline</span>
+          <div class="tabs" role="tablist" aria-label="Logo outline">
+            <button class="tab" role="tab" id="tab-logo-outline-none" aria-pressed="true" onclick="setAxis('logo-outline','none')">As-is</button>
+            <button class="tab" role="tab" id="tab-logo-outline-circle" aria-pressed="false" onclick="setAxis('logo-outline','circle')">Circle</button>
+            <button class="tab" role="tab" id="tab-logo-outline-square" aria-pressed="false" onclick="setAxis('logo-outline','square')">Square</button>
           </div>
         </div>
         <div class="switch-group">
@@ -880,6 +915,7 @@
   // Every font option is available on every logo, so you can see any combination.
   const fontOptions = [
     { value: 'system', label: 'System', note: 'hero: logo default · headings/body: logo default' },
+    { value: 'inter', label: 'Inter', note: 'hero + wordmark: Inter · headings/body: logo default' },
     { value: 'orbitron', label: 'Orbitron', note: 'hero + wordmark: Orbitron · headings/body: logo default' },
     { value: 'audiowide', label: 'Audiowide', note: 'hero + wordmark: Audiowide · headings/body: logo default' },
     { value: 'marker', label: 'Marker', note: 'hero + wordmark: Permanent Marker · headings/body: logo default' },
@@ -891,10 +927,16 @@
     palette: ['lime', 'coral'],
     mode: ['dark', 'light'],
     font: fontOptions.map(o => o.value),
+    'logo-outline': ['none', 'circle', 'square'],
   };
 
-  const defaultState = { logo: 'geo', palette: 'lime', mode: 'dark', font: 'orbitron' };
+  const defaultState = { logo: 'geo', palette: 'lime', mode: 'dark', font: 'orbitron', 'logo-outline': 'none' };
   const state = { ...defaultState };
+  // Longer/more specific axis names (e.g. "logo-outline") must be synced
+  // after shorter ones whose id prefix they contain (e.g. "logo") so a
+  // button id like "tab-logo-outline-none" — which also matches the
+  // "logo" axis's `[id^="tab-logo-"]` selector — ends up correctly set.
+  const axisSyncOrder = Object.keys(defaultState).sort((a, b) => a.length - b.length);
 
   function readHash() {
     const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
@@ -915,7 +957,7 @@
 
   function syncUI() {
     const root = document.getElementById('root');
-    for (const axis of Object.keys(defaultState)) {
+    for (const axis of axisSyncOrder) {
       root.setAttribute('data-' + axis, state[axis]);
       document.querySelectorAll(`[id^="tab-${axis}-"]`).forEach(btn => {
         const btnValue = btn.id.replace(`tab-${axis}-`, '');
