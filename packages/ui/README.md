@@ -4,9 +4,18 @@ Shared design system for Tribulnation Labs sites: CSS tokens for the
 light/dark/system + brand (logo/palette/font) axes, the hash-driven state
 engine behind them, the mode switch, logo marks, and font loading.
 
-Source of truth: the interactive showcase at
-[tribulnation.github.io/design](https://tribulnation.github.io/design/).
 First integrated into [tribulnation/landing](https://github.com/tribulnation/landing).
+Try it live via the interactive showcase at
+[tribulnation.github.io/design/showcase](https://tribulnation.github.io/design/showcase/),
+or grab static logo/lockup files from the
+[brandkit](https://tribulnation.github.io/design/).
+
+The mark SVGs (`src/lib/marks/*.svg`) aren't hand-edited here — they're
+synced from `/assets/marks` (this repo's root, one level up) by
+`scripts/sync-assets.mjs`, which runs automatically as part of `npm run
+package`. If you're working on this package directly, run
+`npm run sync-assets` once after cloning (or after `/assets/marks` changes)
+so `svelte-check`/local dev have the files to import.
 
 ## Install
 

@@ -1,3 +1,9 @@
 node_modules
 dist
 .svelte-kit
+
+# Synced from /assets/marks by scripts/sync-assets.mjs — not hand-edited,
+# not the source of truth. Run `node scripts/sync-assets.mjs` to regenerate.
+src/lib/marks/brush.svg
+src/lib/marks/geo.svg
+src/lib/marks/signal.svg

@@ -1,0 +1,12 @@
+{
+  "name": "@tribulnation/design-scripts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:brand": "node build-brand.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "archiver": "^7.0.1"
+  }
+}
