@@ -97,13 +97,16 @@
   }
   [data-logo="signal"] .wordmark { letter-spacing: 0.01em; }
 
-  /* ---- Font axis: custom brand faces — any face, any logo ---- */
-  [data-font="orbitron"] {
-    --display-font: 'Orbitron', var(--font-sans);
-    --wordmark-font: 'Orbitron', var(--font-sans);
-  }
+  /* ---- Font axis: custom brand faces — any face, any logo ----
+     Deliberately scoped to the *largest* title only (hero H1 + wordmark),
+     not --display-font broadly: section headers, stat values, and other
+     mid-size headings stay on the logo's base face. A display/handwriting
+     face reads fine at hero size but gets hard to read at smaller sizes
+     or on longer strings (e.g. a real blog-post title) — so it never
+     cascades past the one big headline it was chosen for. */
   [data-font="orbitron"] .hero h1,
-  [data-font="orbitron"] .section-head h2 {
+  [data-font="orbitron"] .wordmark {
+    font-family: 'Orbitron', var(--font-sans);
     font-weight: 700;
     letter-spacing: 0.01em;
   }
@@ -113,29 +116,20 @@
     text-transform: uppercase;
   }
 
-  [data-font="audiowide"] {
-    --display-font: 'Audiowide', var(--font-sans);
-    --wordmark-font: 'Audiowide', var(--font-sans);
-  }
   [data-font="audiowide"] .hero h1,
-  [data-font="audiowide"] .section-head h2 {
+  [data-font="audiowide"] .wordmark {
+    font-family: 'Audiowide', var(--font-sans);
     font-weight: 400;
     letter-spacing: -0.01em;
   }
   [data-font="audiowide"] .wordmark {
-    font-weight: 400;
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }
 
-  [data-font="marker"] {
-    --display-font: 'Permanent Marker', cursive;
-    --wordmark-font: 'Permanent Marker', cursive;
-  }
   [data-font="marker"] .hero h1,
-  [data-font="marker"] .section-head h2,
-  [data-font="marker"] .wordmark,
-  [data-font="marker"] .type-sample.h-only {
+  [data-font="marker"] .wordmark {
+    font-family: 'Permanent Marker', cursive;
     font-weight: 400;
     letter-spacing: 0.01em;
     text-transform: none;
@@ -148,14 +142,9 @@
     font-size: 14px;
   }
 
-  [data-font="sriracha"] {
-    --display-font: 'Sriracha', cursive;
-    --wordmark-font: 'Sriracha', cursive;
-  }
   [data-font="sriracha"] .hero h1,
-  [data-font="sriracha"] .section-head h2,
-  [data-font="sriracha"] .wordmark,
-  [data-font="sriracha"] .type-sample.h-only {
+  [data-font="sriracha"] .wordmark {
+    font-family: 'Sriracha', cursive;
     font-weight: 400;
     letter-spacing: 0.01em;
     text-transform: none;
@@ -886,11 +875,11 @@
 
   // Every font option is available on every logo, so you can see any combination.
   const fontOptions = [
-    { value: 'system', label: 'System', note: 'display: logo default · body: system sans' },
-    { value: 'orbitron', label: 'Orbitron', note: 'display: Orbitron · body: system sans' },
-    { value: 'audiowide', label: 'Audiowide', note: 'display: Audiowide · body: system sans' },
-    { value: 'marker', label: 'Marker', note: 'display: Permanent Marker · body: system sans' },
-    { value: 'sriracha', label: 'Sriracha', note: 'display: Sriracha · body: system sans' },
+    { value: 'system', label: 'System', note: 'hero: logo default · headings/body: logo default' },
+    { value: 'orbitron', label: 'Orbitron', note: 'hero + wordmark: Orbitron · headings/body: logo default' },
+    { value: 'audiowide', label: 'Audiowide', note: 'hero + wordmark: Audiowide · headings/body: logo default' },
+    { value: 'marker', label: 'Marker', note: 'hero + wordmark: Permanent Marker · headings/body: logo default' },
+    { value: 'sriracha', label: 'Sriracha', note: 'hero + wordmark: Sriracha · headings/body: logo default' },
   ];
 
   const validValues = {
