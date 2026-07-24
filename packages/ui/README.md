@@ -37,6 +37,7 @@ npm install @tribulnation/ui
   import {
     watchAxes,
     setAxis,
+    setPersistedAxis,
     prefersColorSchemeResolver,
     ModeSwitch,
     FontLinks,
@@ -52,7 +53,11 @@ npm install @tribulnation/ui
       mode: ['dark', 'light', 'system'],
       font: ['system', 'inter', 'orbitron', 'audiowide', 'marker', 'sriracha'],
       'logo-outline': ['none', 'circle', 'square']
-    }
+    },
+    // mode remembers the user's last click in localStorage instead of the
+    // hash — everyday toggling shouldn't rewrite the address bar. The hash
+    // still overrides whenever present, e.g. for a QA/share link.
+    persist: ['mode']
   }
 
   let axes: Axes = $state({ ...config.defaults })
@@ -67,13 +72,15 @@ npm install @tribulnation/ui
 
 <Logo class="brand-logo" />
 
-<ModeSwitch value={axes.mode as any} onchange={(v) => setAxis('mode', v)} />
+<ModeSwitch value={axes.mode as any} onchange={(v) => setPersistedAxis('mode', v)} />
 ```
 
 Every axis is overridable via the URL hash for QA (e.g.
-`#logo=geo&palette=lime&font=orbitron`) — the switch UI just calls `setAxis`
-under the hood, so hand-editing the hash and clicking the switch both flow
-through the same state.
+`#logo=geo&palette=lime&font=orbitron`) — that always takes priority. Axes
+not listed in `persist` are written back to the hash by `setAxis` when
+changed (so the showcase's "Copy link" stays shareable); axes listed in
+`persist` (typically just `mode`) are written to localStorage by
+`setPersistedAxis` instead, so routine toggling doesn't touch the URL.
 
 ## What's in here, and what isn't
 
