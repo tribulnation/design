@@ -75,18 +75,24 @@
   .variant-head h2 { font-size: 19px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
   .variant-head p { color: var(--muted); font-size: 13.5px; margin: 4px 0 0; }
 
-  .swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
   .swatch {
     border-radius: 12px;
     border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
     padding: 40px 24px;
     min-height: 140px;
+    overflow: hidden;
   }
   .swatch.on-light { background: #f5f4f0; }
   .swatch.on-dark { background: #0a0c10; }
+  .swatch.on-neutral { background: var(--surface-2); padding: 0; }
+  .swatch.on-neutral img { max-height: 100%; }
   .swatch img { max-width: 100%; max-height: 90px; display: block; }
-  .variant.mark .swatch img { max-height: 64px; }
+  .variant.mark .swatch img,
+  .variant.icon .swatch img { max-height: 64px; }
+  .variant.icon .swatch.on-neutral img { max-height: 140px; }
+  .variant.icon .swatches { grid-template-columns: minmax(160px, 240px); }
 
   .downloads { display: flex; flex-wrap: wrap; gap: 8px; }
   .dl {
@@ -117,9 +123,11 @@
     <div class="eyebrow mono">// Brand</div>
     <h1>Tribulnation Labs brand assets</h1>
     <p class="lede">
-      The mark and lockups, ready to use — SVG for anything that can take it, PNG for
-      anything that can't. Black for light backgrounds, white for dark. Transparent background
-      throughout, no color variants beyond that.
+      The mark, lockups, and a maskable icon, ready to use — SVG for anything that can take it,
+      PNG for anything that can't. Black or white ink on transparent, or a single dual-mode
+      "background" file that switches between the two automatically with the viewer's system
+      theme (and falls back to a light background wherever that's not supported — uploads to
+      GitHub and most other icon fields, for instance).
     </p>
     <div class="actions">
       <a class="btn btn-primary" href="brand/tribulnation-brandkit.zip">Download everything (.zip) ↓</a>
@@ -131,12 +139,13 @@
     <div class="variant-head">
       <div>
         <h2>Mark</h2>
-        <p>The symbol on its own — for icons, favicons, avatars.</p>
+        <p>The symbol on its own — for tight UI placements. Not maskable-safe; see Icon below for that.</p>
       </div>
     </div>
     <div class="swatches">
       <div class="swatch on-light"><img src="brand/mark/black.svg" alt="Tribulnation Labs mark, black" /></div>
       <div class="swatch on-dark"><img src="brand/mark/white.svg" alt="Tribulnation Labs mark, white" /></div>
+      <div class="swatch on-neutral"><img src="brand/mark/background.svg" alt="Tribulnation Labs mark, with background" /></div>
     </div>
     <div class="downloads">
       <a class="dl" href="brand/mark/black.svg">Black <span class="fmt mono">SVG</span></a>
@@ -145,6 +154,26 @@
       <a class="dl" href="brand/mark/white.svg">White <span class="fmt mono">SVG</span></a>
       <a class="dl" href="brand/mark/white@512.png">White <span class="fmt mono">PNG 512</span></a>
       <a class="dl" href="brand/mark/white@2048.png">White <span class="fmt mono">PNG 2048</span></a>
+      <a class="dl" href="brand/mark/background.svg">Background <span class="fmt mono">SVG · auto</span></a>
+      <a class="dl" href="brand/mark/background@512.png">Background <span class="fmt mono">PNG 512</span></a>
+      <a class="dl" href="brand/mark/background@2048.png">Background <span class="fmt mono">PNG 2048</span></a>
+    </div>
+  </section>
+
+  <section class="variant icon">
+    <div class="variant-head">
+      <div>
+        <h2>Icon</h2>
+        <p>Maskable — recentered and scaled to fit a circular safe zone, for app icons, PWA manifests, and profile/avatar uploads (e.g. GitHub) that crop to a circle or rounded square.</p>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch on-neutral"><img src="brand/icon/background.svg" alt="Tribulnation Labs icon, maskable, with background" /></div>
+    </div>
+    <div class="downloads">
+      <a class="dl" href="brand/icon/background.svg">Background <span class="fmt mono">SVG · auto</span></a>
+      <a class="dl" href="brand/icon/background@512.png">Background <span class="fmt mono">PNG 512</span></a>
+      <a class="dl" href="brand/icon/background@2048.png">Background <span class="fmt mono">PNG 2048</span></a>
     </div>
   </section>
 
@@ -158,6 +187,7 @@
     <div class="swatches">
       <div class="swatch on-light"><img src="brand/lockup-horizontal/black.svg" alt="Tribulnation Labs horizontal lockup, black" /></div>
       <div class="swatch on-dark"><img src="brand/lockup-horizontal/white.svg" alt="Tribulnation Labs horizontal lockup, white" /></div>
+      <div class="swatch on-neutral"><img src="brand/lockup-horizontal/background.svg" alt="Tribulnation Labs horizontal lockup, with background" /></div>
     </div>
     <div class="downloads">
       <a class="dl" href="brand/lockup-horizontal/black.svg">Black <span class="fmt mono">SVG</span></a>
@@ -166,6 +196,9 @@
       <a class="dl" href="brand/lockup-horizontal/white.svg">White <span class="fmt mono">SVG</span></a>
       <a class="dl" href="brand/lockup-horizontal/white@512.png">White <span class="fmt mono">PNG 512</span></a>
       <a class="dl" href="brand/lockup-horizontal/white@2048.png">White <span class="fmt mono">PNG 2048</span></a>
+      <a class="dl" href="brand/lockup-horizontal/background.svg">Background <span class="fmt mono">SVG · auto</span></a>
+      <a class="dl" href="brand/lockup-horizontal/background@512.png">Background <span class="fmt mono">PNG 512</span></a>
+      <a class="dl" href="brand/lockup-horizontal/background@2048.png">Background <span class="fmt mono">PNG 2048</span></a>
     </div>
   </section>
 
@@ -179,6 +212,7 @@
     <div class="swatches">
       <div class="swatch on-light"><img src="brand/lockup-stacked/black.svg" alt="Tribulnation Labs stacked lockup, black" /></div>
       <div class="swatch on-dark"><img src="brand/lockup-stacked/white.svg" alt="Tribulnation Labs stacked lockup, white" /></div>
+      <div class="swatch on-neutral"><img src="brand/lockup-stacked/background.svg" alt="Tribulnation Labs stacked lockup, with background" /></div>
     </div>
     <div class="downloads">
       <a class="dl" href="brand/lockup-stacked/black.svg">Black <span class="fmt mono">SVG</span></a>
@@ -187,6 +221,9 @@
       <a class="dl" href="brand/lockup-stacked/white.svg">White <span class="fmt mono">SVG</span></a>
       <a class="dl" href="brand/lockup-stacked/white@512.png">White <span class="fmt mono">PNG 512</span></a>
       <a class="dl" href="brand/lockup-stacked/white@2048.png">White <span class="fmt mono">PNG 2048</span></a>
+      <a class="dl" href="brand/lockup-stacked/background.svg">Background <span class="fmt mono">SVG · auto</span></a>
+      <a class="dl" href="brand/lockup-stacked/background@512.png">Background <span class="fmt mono">PNG 512</span></a>
+      <a class="dl" href="brand/lockup-stacked/background@2048.png">Background <span class="fmt mono">PNG 2048</span></a>
     </div>
   </section>
 

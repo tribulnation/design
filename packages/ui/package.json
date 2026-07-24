@@ -1,6 +1,6 @@
 {
   "name": "@tribulnation/ui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Tribulnation Labs shared design system: tokens, hash-driven light/dark/system + brand axes, logo marks, and font loading.",
   "license": "MIT",
   "type": "module",
@@ -15,7 +15,8 @@
   },
   "scripts": {
     "sync-assets": "node scripts/sync-assets.mjs",
-    "package": "npm run sync-assets && svelte-package && publint",
+    "build-favicon": "node scripts/build-favicon.mjs",
+    "package": "npm run sync-assets && svelte-package && npm run build-favicon && publint",
     "prepublishOnly": "npm run package",
     "check": "npm run sync-assets && svelte-check --tsconfig ./tsconfig.json"
   },
@@ -38,7 +39,8 @@
     "./fonts": {
       "types": "./dist/fonts.d.ts",
       "default": "./dist/fonts.js"
-    }
+    },
+    "./favicon.svg": "./dist/favicon.svg"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
