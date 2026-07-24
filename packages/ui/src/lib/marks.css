@@ -1,0 +1,27 @@
+/* Pairs with <Logo /> from '@tribulnation/ui': shows only the mark matching
+   the logo axis (<html data-logo="geo|brush|signal">), hides the others. */
+
+.ui-mark {
+  display: none;
+  height: 100%;
+}
+
+html[data-logo='geo'] .ui-mark--geo,
+html[data-logo='brush'] .ui-mark--brush,
+html[data-logo='signal'] .ui-mark--signal {
+  display: block;
+}
+
+/* Logo-outline axis: draw a ring or rounded-square container around the
+   bare mark. Apply the .ui-logo class (from <Logo />) to opt in. */
+html[data-logo-outline='circle'] .ui-logo {
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  padding: 4px;
+}
+
+html[data-logo-outline='square'] .ui-logo {
+  border-radius: 8px;
+  border: 1.5px solid currentColor;
+  padding: 4px;
+}
