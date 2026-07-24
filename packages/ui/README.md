@@ -81,5 +81,20 @@ what's actually reusable there.
 Bump `version` in `packages/ui/package.json` and push to `main`.
 `.github/workflows/publish-ui.yml` builds the package and publishes to npm
 whenever that version isn't already on the registry — no tagging step
-needed. Requires an `NPM_TOKEN` repo secret (an npm automation token with
-publish rights on the `@tribulnation` scope).
+needed.
+
+Publishing uses npm's [Trusted Publishing](https://docs.npmjs.com/trusted-publishers)
+(OIDC) rather than a long-lived token: the workflow requests a short-lived
+identity token from GitHub (`id-token: write`), and npm verifies it against
+a Trusted Publisher configured on the package, tying publish rights to this
+exact repo + workflow file. No `NPM_TOKEN` secret to store or rotate.
+
+**One-time setup**, needed once and after any change to the workflow's
+filename or the repo it lives in:
+1. The package must already exist on npm before a Trusted Publisher can be
+   attached to it — publish version `0.1.0` once by hand
+   (`npm login && npm publish --access public` from `packages/ui`).
+2. On the [package's settings page](https://www.npmjs.com/package/@tribulnation/ui/access),
+   add a Trusted Publisher: GitHub Actions, repo `tribulnation/design`,
+   workflow `publish-ui.yml`, no environment.
+3. From then on, CI publishes with zero secrets.

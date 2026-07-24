@@ -16,6 +16,7 @@ jobs:
         working-directory: packages/ui
     permissions:
       contents: read
+      id-token: write # required for npm Trusted Publishing (OIDC) — no NPM_TOKEN needed
     steps:
       - uses: actions/checkout@v4
 
@@ -23,6 +24,9 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+
+      # Trusted Publishing needs npm >= 11.5.1; setup-node's bundled npm may be older.
+      - run: npm install -g npm@latest
 
       - run: npm install
 
@@ -43,11 +47,12 @@ jobs:
         if: steps.version-check.outputs.skip == 'false'
         run: npm run package
 
+      # No NODE_AUTH_TOKEN: with a Trusted Publisher configured on npmjs.com for
+      # this repo + workflow, `npm publish` authenticates via GitHub's OIDC token
+      # (the id-token permission above) and attaches provenance automatically.
       - name: Publish
         if: steps.version-check.outputs.skip == 'false'
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Skipped
         if: steps.version-check.outputs.skip == 'true'
