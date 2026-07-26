@@ -82,10 +82,28 @@ changed (so the showcase's "Copy link" stays shareable); axes listed in
 `persist` (typically just `mode`) are written to localStorage by
 `setPersistedAxis` instead, so routine toggling doesn't touch the URL.
 
+## Brandkit
+
+The full brandkit — mark, maskable icon, both lockups, and social cover
+images, each as SVG + PNG@512/2048, plus a "download everything" zip — ships
+under `dist/brandkit/`, generated at package-build time from the same
+`/assets` source as the GitHub Pages brandkit (`scripts/build-brandkit.mjs`
+invokes the repo-root `scripts/build-brand.mjs` with a redirected output
+dir). Every file is importable via the `./brandkit/*` export, e.g.:
+
+```ts
+import markBg from '@tribulnation/ui/brandkit/mark/background.svg'
+import zipUrl from '@tribulnation/ui/brandkit/tribulnation-brandkit.zip?url'
+```
+
+Consumers get Vite's normal asset pipeline for free — bump the package
+version, `npm install`, rebuild, done. No sync script, no committed copies.
+
 ## What's in here, and what isn't
 
 Included: design tokens, the axis-sync engine, the mode switch, logo marks,
-and font loading — the parts that are genuinely the same shape across sites.
+font loading, and the brandkit — the parts that are genuinely the same shape
+across sites.
 
 Deliberately left out: page layout, nav/footer chrome, buttons, cards — those
 vary per site and would just bake one site's copy/structure into a "shared"

@@ -12,7 +12,12 @@ import archiver from 'archiver'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const assetsDir = join(here, '..', 'assets')
-const outDir = join(here, '..', 'site', 'brand')
+// Output defaults to /site/brand (served by this repo's own GitHub Pages
+// site) but can be redirected — e.g. packages/ui builds straight into its
+// own dist/ so the brandkit ships as part of @tribulnation/ui, letting
+// consumers (like tribulnation/landing) sync it via a normal npm bump
+// instead of a manual file copy.
+const outDir = process.argv[2] ? join(process.cwd(), process.argv[2]) : join(here, '..', 'site', 'brand')
 
 const INK = { black: '#0a0c10', white: '#f5f4f0' }
 const PNG_WIDTHS = [512, 2048]
