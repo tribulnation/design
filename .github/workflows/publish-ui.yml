@@ -43,6 +43,15 @@ jobs:
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # build-brandkit invokes the repo-root generator (../../scripts/build-brand.mjs),
+      # which needs its own deps (@resvg/resvg-js, archiver) — Node resolves those
+      # relative to that script's real path, so they must live in scripts/node_modules,
+      # not packages/ui's. Install them explicitly before building.
+      - name: Install root brandkit-generator deps
+        if: steps.version-check.outputs.skip == 'false'
+        working-directory: scripts
+        run: npm install
+
       - name: Build
         if: steps.version-check.outputs.skip == 'false'
         run: npm run package
