@@ -84,8 +84,8 @@ changed (so the showcase's "Copy link" stays shareable); axes listed in
 
 ## Brandkit
 
-The full brandkit — mark, maskable icon, both lockups, and social cover
-images, each as SVG + PNG@512/2048, plus a "download everything" zip — ships
+The full brandkit — mark, maskable icon, both lockups, social cover
+images and the OpenGraph link-preview card, each as SVG + PNG@512/2048, plus a "download everything" zip — ships
 under `dist/brandkit/`, generated at package-build time from the same
 `/assets` source as the GitHub Pages brandkit (`scripts/build-brandkit.mjs`
 invokes the repo-root `scripts/build-brand.mjs` with a redirected output

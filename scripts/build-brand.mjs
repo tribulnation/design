@@ -138,7 +138,7 @@ for (const variant of STANDARD_VARIANTS) {
 }
 
 // ---- social: fixed-size, fixed-color cover images (X/Twitter header,
-// LinkedIn company banner) — not currentColor variants like the rest of the
+// LinkedIn company banner, OpenGraph link-preview card) — not currentColor variants like the rest of the
 // kit, since they're single-purpose compositions (mark + wordmark + tagline
 // + grid/glow backdrop) sized to each platform's exact upload dimensions.
 // Source SVGs already bake in their own colors and a self-contained
@@ -148,7 +148,9 @@ for (const variant of STANDARD_VARIANTS) {
 {
   const SOCIAL_VARIANTS = [
     { slug: 'twitter-header', src: join(assetsDir, 'social', 'twitter-header.svg'), width: 1500 },
-    { slug: 'linkedin-banner', src: join(assetsDir, 'social', 'linkedin-banner.svg'), width: 1128 }
+    { slug: 'linkedin-banner', src: join(assetsDir, 'social', 'linkedin-banner.svg'), width: 1128 },
+    // OpenGraph / Twitter card for link previews of tribulnation.com (1200x630).
+    { slug: 'og-card', src: join(assetsDir, 'social', 'og-card.svg'), width: 1200 }
   ]
   const variantDir = join(outDir, 'social')
   mkdirSync(variantDir, { recursive: true })
