@@ -3,7 +3,15 @@
 // this script derives fixed-color and dual-mode variants, PNG rasters, and
 // a "download everything" zip from them. Nothing in /assets/ is modified —
 // everything here is build output, regenerated on every deploy.
-import { readFileSync, writeFileSync, mkdirSync, rmSync, renameSync, createWriteStream } from 'node:fs'
+import {
+  copyFileSync,
+  createWriteStream,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync
+} from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { tmpdir } from 'node:os'
@@ -12,8 +20,8 @@ import archiver from 'archiver'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const assetsDir = join(here, '..', 'assets')
-// Output defaults to /site/brand (served by this repo's own GitHub Pages
-// site) but can be redirected — e.g. packages/ui builds straight into its
+// Output defaults to /site/brand (served by this repo's deployed site) but
+// can be redirected — e.g. packages/ui builds straight into its
 // own dist/ so the brandkit ships as part of @tribulnation/ui, letting
 // consumers (like tribulnation/landing) sync it via a normal npm bump
 // instead of a manual file copy.
@@ -178,6 +186,13 @@ await new Promise((resolve, reject) => {
   archive.directory(outDir, 'tribulnation-brandkit')
   archive.finalize()
 })
-renameSync(tmpZipPath, join(outDir, 'tribulnation-brandkit.zip'))
+const zipPath = join(outDir, 'tribulnation-brandkit.zip')
+try {
+  renameSync(tmpZipPath, zipPath)
+} catch (error) {
+  if (error.code !== 'EXDEV') throw error
+  copyFileSync(tmpZipPath, zipPath)
+  rmSync(tmpZipPath)
+}
 
 console.log('built tribulnation-brandkit.zip')

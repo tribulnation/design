@@ -3,10 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:brand": "node build-brand.mjs"
+    "build:brand": "node build-brand.mjs",
+    "deploy": "npm run build:brand && wrangler deploy"
   },
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "archiver": "^7.0.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.90.0"
   }
 }
