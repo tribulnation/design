@@ -6,9 +6,9 @@ engine behind them, the mode switch, logo marks, and font loading.
 
 First integrated into [tribulnation/landing](https://github.com/tribulnation/landing).
 Try it live via the interactive showcase at
-[tribulnation.github.io/design/showcase](https://tribulnation.github.io/design/showcase/),
+[design.tribulnation.com/showcase](https://design.tribulnation.com/showcase/),
 or grab static logo/lockup files from the
-[brandkit](https://tribulnation.github.io/design/).
+[brandkit](https://design.tribulnation.com/).
 
 The mark SVGs (`src/lib/marks/*.svg`) aren't hand-edited here — they're
 synced from `/assets/marks` (this repo's root, one level up) by

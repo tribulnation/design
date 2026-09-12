@@ -9,7 +9,7 @@
     "url": "git+https://github.com/tribulnation/design.git",
     "directory": "packages/ui"
   },
-  "homepage": "https://tribulnation.github.io/design/",
+  "homepage": "https://design.tribulnation.com/",
   "publishConfig": {
     "access": "public"
   },

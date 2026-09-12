@@ -20,8 +20,8 @@ import archiver from 'archiver'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const assetsDir = join(here, '..', 'assets')
-// Output defaults to /site/brand (served by this repo's own GitHub Pages
-// site) but can be redirected — e.g. packages/ui builds straight into its
+// Output defaults to /site/brand (served by this repo's deployed site) but
+// can be redirected — e.g. packages/ui builds straight into its
 // own dist/ so the brandkit ships as part of @tribulnation/ui, letting
 // consumers (like tribulnation/landing) sync it via a normal npm bump
 // instead of a manual file copy.
