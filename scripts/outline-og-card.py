@@ -100,7 +100,7 @@ schematic = '  <g transform="translate(672,172) scale(0.9)">\n' + ''.join(sch) +
 # ---- copy
 h1a = T('Software for', 'semibold', 62, 72, 262, '#eef1f4', -0.035)
 h1b = T('crypto traders.', 'semibold', 62, 72, 326, '#eef1f4', -0.035)
-h1c = T('Built for real use.', 'medium', 62, 72, 390, '#a3a7b3', -0.035)
+h1c = T('We use it too.', 'medium', 62, 72, 390, '#a3a7b3', -0.035)
 pill_d, pill_w = text_path('Barcelona · tribulnation.com', 'mono', 15, 104, 461)
 pill = (f'  <rect x="72" y="438" width="{pill_w + 46:.0f}" height="34" rx="17" fill="#13161b" stroke="#262b32"/>\n'
         f'  <circle cx="90" cy="455" r="4" fill="#ff5a36"/><circle cx="90" cy="455" r="8" fill="#ff5a36" fill-opacity="0.18"/>\n'
